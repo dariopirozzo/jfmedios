@@ -1,4 +1,4 @@
-import { Instagram, Facebook, Youtube, Mail, Phone } from "lucide-react";
+import { Instagram, Facebook, Mail, Phone } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -13,23 +13,33 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           {/* Logo & Description */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="font-display text-4xl text-gradient">JF</span>
-              <span className="font-display text-2xl">MEDIOS</span>
+            <div className="flex items-center mb-4">
+              <img
+                src="/jfmedios-logo-sin-bg.png"
+                alt="JF Medios"
+                className="h-[2.6rem] w-auto object-contain"
+              />
             </div>
             <p className="text-muted-foreground mb-4 max-w-md">
               Somos una agencia de eventos dedicada a crear experiencias inolvidables. 
               Desde conciertos hasta fiestas corporativas, hacemos realidad tus ideas.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a
+                href="https://www.instagram.com/jfmedios?igsh=czE5cGRzbWpldzR6"
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a
+                href="https://www.facebook.com/share/1CvwnPfC1j/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
                 <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Youtube className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -56,14 +66,6 @@ const Footer = () => {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection("testimonios")}
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Testimonios
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => scrollToSection("contacto")}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
@@ -79,14 +81,20 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="w-4 h-4 text-primary" />
-                <a href="mailto:contacto@jfmedios.com" className="hover:text-primary transition-colors">
-                  contacto@jfmedios.com
+                <a
+                  href="mailto:jfanucchimedios@gmail.com"
+                  className="hover:text-primary transition-colors"
+                >
+                  jfanucchimedios@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Phone className="w-4 h-4 text-primary" />
-                <a href="tel:+5491112345678" className="hover:text-primary transition-colors">
-                  +54 9 11 1234-5678
+                <a
+                  href="tel:+541151105000"
+                  className="hover:text-primary transition-colors"
+                >
+                  +54 11 5110 5000
                 </a>
               </li>
             </ul>
@@ -94,7 +102,23 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground text-sm">
-          <p>© {currentYear} JFMedios. Todos los derechos reservados.</p>
+          <p className="flex flex-wrap items-center justify-center gap-2">
+            <span>© {currentYear} JFMedios. Todos los derechos reservados.</span>
+            <span className="text-muted-foreground/60">|</span>
+            <a
+              href="https://www.devstudiocode.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 hover:text-primary transition-colors"
+            >
+              <span>Powered by DevStudio</span>
+              <img
+                src="/logo_transparent.png"
+                alt="DevStudio"
+                className="h-5 w-auto object-contain"
+              />
+            </a>
+          </p>
         </div>
       </div>
     </footer>

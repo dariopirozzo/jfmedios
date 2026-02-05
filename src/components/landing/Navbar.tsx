@@ -39,10 +39,14 @@ const Navbar = () => {
         {/* Logo */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-1"
+          className="flex items-center"
+          aria-label="JF Medios"
         >
-          <span className="font-display text-3xl text-gradient">JF</span>
-          <span className="font-display text-xl hidden sm:block">MEDIOS</span>
+          <img
+            src="/jfmedios-logo-sin-bg.png"
+            alt="JF Medios"
+            className="h-10 sm:h-12 w-auto object-contain"
+          />
         </button>
 
         {/* Desktop Nav */}

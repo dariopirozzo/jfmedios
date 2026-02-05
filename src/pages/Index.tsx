@@ -3,7 +3,7 @@ import Hero from "@/components/landing/Hero";
 import UpcomingEvents from "@/components/landing/UpcomingEvents";
 import Gallery from "@/components/landing/Gallery";
 import PastEvents from "@/components/landing/PastEvents";
-import Testimonials from "@/components/landing/Testimonials";
+import WhatsAppFloating from "@/components/landing/WhatsAppFloating";
 import Contact from "@/components/landing/Contact";
 import Footer from "@/components/landing/Footer";
 
@@ -15,9 +15,10 @@ const Index = () => {
       <UpcomingEvents />
       <Gallery />
       <PastEvents />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <Contact />
       <Footer />
+      <WhatsAppFloating />
     </div>
   );
 };

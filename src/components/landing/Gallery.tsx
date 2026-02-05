@@ -2,15 +2,26 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
-// Mock data
-const mockGallery = [
-  { id: 1, url: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800", type: "image" },
-  { id: 2, url: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800", type: "image" },
-  { id: 3, url: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800", type: "image" },
-  { id: 4, url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800", type: "image" },
-  { id: 5, url: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800", type: "image" },
-  { id: 6, url: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800", type: "image" },
+const galleryFiles = [
+  "WhatsApp Image 2026-02-04 at 21.02.34 (1).jpeg",
+  "WhatsApp Image 2026-02-04 at 21.02.34.jpeg",
+  "WhatsApp Image 2026-02-04 at 21.02.35 (1).jpeg",
+  "WhatsApp Image 2026-02-04 at 21.02.35 (2).jpeg",
+  "WhatsApp Image 2026-02-04 at 21.02.35 (3).jpeg",
+  "WhatsApp Image 2026-02-04 at 21.27.32 (1).jpeg",
+  "WhatsApp Image 2026-02-04 at 21.27.32.jpeg",
+  "WhatsApp Image 2026-02-04 at 21.33.02.jpeg",
+  "WhatsApp Image 2026-02-04 at 21.34.28.jpeg",
+  "WhatsApp Image 2026-02-04 at 21.38.20.jpeg",
+  "WhatsApp Image 2026-02-04 at 21.47.21 (1).jpeg",
+  "WhatsApp Image 2026-02-04 at 22.02.18.jpeg",
 ];
+
+const mockGallery = galleryFiles.map((file, index) => ({
+  id: index + 1,
+  url: encodeURI(`/galeria/${file}`),
+  type: "image",
+}));
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -46,7 +57,7 @@ const Gallery = () => {
               <img
                 src={item.url}
                 alt={`Galería ${item.id}`}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className="w-full h-full object-contain bg-black transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300" />
             </motion.div>

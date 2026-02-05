@@ -46,25 +46,14 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8"
+          className="mb-4"
         >
-          <div className="inline-block">
-            <span className="font-display text-8xl md:text-9xl text-gradient tracking-wider">
-              JF
-            </span>
-          </div>
+          <img
+            src="/jfmedios-logo-sin-bg.png"
+            alt="JF Medios"
+            className="h-[15.6rem] sm:h-[17.55rem] md:h-[19.5rem] lg:h-[21.45rem] w-auto mx-auto object-contain drop-shadow-[0_12px_30px_rgba(0,0,0,0.45)]"
+          />
         </motion.div>
-
-        {/* Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="font-display text-5xl md:text-7xl lg:text-8xl mb-6 tracking-wide"
-        >
-          <span className="text-foreground">JF</span>
-          <span className="text-primary">MEDIOS</span>
-        </motion.h1>
 
         {/* Subtitle */}
         <motion.p

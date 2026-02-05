@@ -1,32 +1,33 @@
-import { motion } from "framer-motion";
-import { Calendar, MapPin } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import Countdown from "./Countdown";
+import { motion } from 'framer-motion';
+import { Calendar, MapPin } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import Countdown from './Countdown';
 
 // Mock data - será reemplazado por datos de la base de datos
 const mockEvents = [
   {
     id: 1,
-    title: "Noche de Rock en Vivo",
-    date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    location: "Teatro Principal",
-    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
+    title: 'Cazadoras Doradas Guerreras K-pop en vivo',
+    date: new Date(2026, 1, 26, 18, 0, 0),
+    location: 'Teatro Sociedad Española, Suipacha',
+    image: '/guerreras-kpop-flyer.jpeg',
     isNext: true,
   },
   {
     id: 2,
-    title: "Festival Electrónico",
-    date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-    location: "Parque Central",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800",
+    title: 'Cazadoras Doradas Guerreras K-pop en vivo',
+    date: new Date(2026, 2, 7, 19, 0, 0),
+    location: 'Teatro Italiano de Lobos',
+    image: '/guerreras-kpop-flyer.jpeg',
     isNext: false,
   },
   {
     id: 3,
-    title: "Fiesta de Año Nuevo",
-    date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    location: "Club Nocturno Elite",
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800",
+    title: 'Cazadoras Doradas Guerreras K-pop en vivo',
+    date: new Date(2026, 3, 11, 18, 0, 0),
+    location: 'Cine Teatro de la Sociedad Española de General Las Heras',
+    image: '/guerreras-kpop-flyer.jpeg',
     isNext: false,
   },
 ];
@@ -34,12 +35,13 @@ const mockEvents = [
 const UpcomingEvents = () => {
   const nextEvent = mockEvents.find((e) => e.isNext);
   const otherEvents = mockEvents.filter((e) => !e.isNext);
+  const ticketUrl = 'https://www.entradaweb.com.ar/evento/7231a537/step/1';
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString("es-ES", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
+    return date.toLocaleDateString('es-ES', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
     });
   };
 
@@ -74,9 +76,8 @@ const UpcomingEvents = () => {
                   <img
                     src={nextEvent.image}
                     alt={nextEvent.title}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-contain bg-black"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent" />
                 </div>
                 <CardContent className="p-8 flex flex-col justify-center">
                   <span className="text-primary font-semibold mb-2 uppercase tracking-wider text-sm">
@@ -88,7 +89,9 @@ const UpcomingEvents = () => {
                   <div className="flex flex-col gap-2 mb-6 text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-5 h-5 text-primary" />
-                      <span className="capitalize">{formatDate(nextEvent.date)}</span>
+                      <span className="capitalize">
+                        {formatDate(nextEvent.date)}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <MapPin className="w-5 h-5 text-primary" />
@@ -96,6 +99,13 @@ const UpcomingEvents = () => {
                     </div>
                   </div>
                   <Countdown targetDate={nextEvent.date} />
+                  <div className="mt-6 flex justify-end">
+                    <Button asChild className="gradient-bordo">
+                      <a href={ticketUrl} target="_blank" rel="noreferrer">
+                        Comprar entradas
+                      </a>
+                    </Button>
+                  </div>
                 </CardContent>
               </div>
             </Card>
@@ -117,20 +127,26 @@ const UpcomingEvents = () => {
                   <img
                     src={event.image}
                     alt={event.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-contain bg-black group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
                 </div>
                 <CardContent className="p-6">
-                  <h3 className="font-display text-2xl mb-3">{event.title}</h3>
-                  <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-primary" />
-                      <span className="capitalize">{formatDate(event.date)}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-primary" />
-                      <span>{event.location}</span>
+                  <div className="flex flex-col gap-2 h-[6.5rem]">
+                    <h3 className="font-display text-2xl leading-tight h-[3.5rem] overflow-hidden">
+                      {event.title}
+                    </h3>
+                    <div className="flex flex-col gap-1 text-sm text-muted-foreground h-[2.5rem] overflow-hidden">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-primary" />
+                        <span className="capitalize">
+                          {formatDate(event.date)}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-primary" />
+                        <span>{event.location}</span>
+                      </div>
                     </div>
                   </div>
                 </CardContent>

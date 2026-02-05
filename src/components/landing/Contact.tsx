@@ -1,11 +1,12 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, MapPin, MessageCircle, Send, Instagram, Facebook, Youtube } from "lucide-react";
+import { Mail, Phone, Send, Instagram, Facebook } from "lucide-react";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -23,6 +24,9 @@ const Contact = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,23 +44,45 @@ const Contact = () => {
       return;
     }
 
-    setIsSubmitting(true);
-    // Simular envío
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Mensaje enviado",
-      description: "Nos pondremos en contacto contigo pronto.",
-    });
-    
-    setFormData({ name: "", email: "", message: "" });
-    setIsSubmitting(false);
-  };
+    if (!serviceId || !templateId || !publicKey) {
+      toast({
+        title: "Configuración faltante",
+        description: "Faltan variables de EmailJS en el .env.",
+        variant: "destructive",
+      });
+      return;
+    }
 
-  const openWhatsApp = () => {
-    const phone = "5491112345678"; // Reemplazar con número real
-    const message = encodeURIComponent("Hola! Me interesa obtener información sobre sus servicios de eventos.");
-    window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+    setIsSubmitting(true);
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          reply_to: formData.email,
+          message: formData.message,
+        },
+        {
+          publicKey,
+        },
+      );
+
+      toast({
+        title: "Mensaje enviado",
+        description: "Nos pondremos en contacto contigo pronto.",
+      });
+
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Error al enviar",
+        description: "No pudimos enviar tu mensaje. Intenta nuevamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -141,16 +167,6 @@ const Contact = () => {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            {/* WhatsApp Button */}
-            <Button
-              onClick={openWhatsApp}
-              size="lg"
-              className="w-full bg-green-600 hover:bg-green-700 text-lg py-6"
-            >
-              <MessageCircle className="w-6 h-6 mr-2" />
-              Contactar por WhatsApp
-            </Button>
-
             <Card className="bg-card border-border">
               <CardContent className="p-6 space-y-6">
                 <div className="flex items-start gap-4">
@@ -159,8 +175,11 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Email</p>
-                    <a href="mailto:contacto@jfmedios.com" className="text-muted-foreground hover:text-primary transition-colors">
-                      contacto@jfmedios.com
+                    <a
+                      href="mailto:jfanucchimedios@gmail.com"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      jfanucchimedios@gmail.com
                     </a>
                   </div>
                 </div>
@@ -171,23 +190,15 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Teléfono</p>
-                    <a href="tel:+5491112345678" className="text-muted-foreground hover:text-primary transition-colors">
-                      +54 9 11 1234-5678
+                    <a
+                      href="tel:+541151105000"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      +54 11 5110 5000
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-full bg-primary/20">
-                    <MapPin className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold mb-1">Ubicación</p>
-                    <p className="text-muted-foreground">
-                      Buenos Aires, Argentina
-                    </p>
-                  </div>
-                </div>
               </CardContent>
             </Card>
 
@@ -197,22 +208,20 @@ const Contact = () => {
                 <p className="font-semibold mb-4">Síguenos en redes</p>
                 <div className="flex gap-4">
                   <a
-                    href="#"
+                    href="https://www.instagram.com/jfmedios?igsh=czE5cGRzbWpldzR6"
+                    target="_blank"
+                    rel="noreferrer"
                     className="p-3 rounded-full bg-primary/20 hover:bg-primary/40 transition-colors"
                   >
                     <Instagram className="w-5 h-5 text-primary" />
                   </a>
                   <a
-                    href="#"
+                    href="https://www.facebook.com/share/1CvwnPfC1j/?mibextid=wwXIfr"
+                    target="_blank"
+                    rel="noreferrer"
                     className="p-3 rounded-full bg-primary/20 hover:bg-primary/40 transition-colors"
                   >
                     <Facebook className="w-5 h-5 text-primary" />
-                  </a>
-                  <a
-                    href="#"
-                    className="p-3 rounded-full bg-primary/20 hover:bg-primary/40 transition-colors"
-                  >
-                    <Youtube className="w-5 h-5 text-primary" />
                   </a>
                 </div>
               </CardContent>
