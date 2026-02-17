@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const galleryFiles = [
   "WhatsApp Image 2026-02-04 at 21.02.34 (1).jpeg",
@@ -25,6 +26,19 @@ const mockGallery = galleryFiles.map((file, index) => ({
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleImageClick = (imageUrl: string, imageId: number) => {
+    trackEvent("gallery_image_open", {
+      source: "gallery_grid",
+      image_id: imageId,
+    });
+    setSelectedImage(imageUrl);
+  };
+
+  const closeLightbox = (source: string) => {
+    trackEvent("gallery_lightbox_close", { source });
+    setSelectedImage(null);
+  };
 
   return (
     <section id="galeria" className="py-20 px-4 bg-card/50">
@@ -52,7 +66,7 @@ const Gallery = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               className="relative aspect-square overflow-hidden rounded-lg cursor-pointer group"
-              onClick={() => setSelectedImage(item.url)}
+              onClick={() => handleImageClick(item.url, item.id)}
             >
               <img
                 src={item.url}
@@ -73,11 +87,14 @@ const Gallery = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 p-4"
-            onClick={() => setSelectedImage(null)}
+            onClick={() => closeLightbox("overlay")}
           >
             <button
               className="absolute top-4 right-4 p-2 rounded-full bg-card hover:bg-primary transition-colors"
-              onClick={() => setSelectedImage(null)}
+              onClick={(e) => {
+                e.stopPropagation();
+                closeLightbox("close_button");
+              }}
             >
               <X className="w-6 h-6" />
             </button>

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { trackEvent } from "@/lib/analytics";
 import { Mail, Phone, Send, Instagram, Facebook } from "lucide-react";
 import { z } from "zod";
 
@@ -31,6 +32,7 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
+    trackEvent("contact_form_submit_attempt", { source: "contact_section" });
 
     const result = contactSchema.safeParse(formData);
     if (!result.success) {
@@ -41,6 +43,10 @@ const Contact = () => {
         }
       });
       setErrors(fieldErrors);
+      trackEvent("contact_form_validation_failed", {
+        source: "contact_section",
+        invalid_fields: Object.keys(fieldErrors).join(","),
+      });
       return;
     }
 
@@ -50,6 +56,7 @@ const Contact = () => {
         description: "Faltan variables de EmailJS en el .env.",
         variant: "destructive",
       });
+      trackEvent("contact_form_missing_config", { source: "contact_section" });
       return;
     }
 
@@ -72,9 +79,19 @@ const Contact = () => {
         title: "Mensaje enviado",
         description: "Nos pondremos en contacto contigo pronto.",
       });
+      trackEvent("contact_form_submit_success", {
+        source: "contact_section",
+        message_length: formData.message.length,
+      });
 
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "unknown_error";
+      trackEvent("contact_form_submit_error", {
+        source: "contact_section",
+        error_message: errorMessage,
+      });
       toast({
         title: "Error al enviar",
         description: "No pudimos enviar tu mensaje. Intenta nuevamente.",
@@ -177,6 +194,11 @@ const Contact = () => {
                     <p className="font-semibold mb-1">Email</p>
                     <a
                       href="mailto:jfanucchimedios@gmail.com"
+                      onClick={() =>
+                        trackEvent("contact_email_click", {
+                          source: "contact_section",
+                        })
+                      }
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
                       jfanucchimedios@gmail.com
@@ -192,6 +214,11 @@ const Contact = () => {
                     <p className="font-semibold mb-1">Teléfono</p>
                     <a
                       href="tel:+541151105000"
+                      onClick={() =>
+                        trackEvent("contact_phone_click", {
+                          source: "contact_section",
+                        })
+                      }
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
                       +54 11 5110 5000
@@ -211,6 +238,12 @@ const Contact = () => {
                     href="https://www.instagram.com/jfmedios?igsh=czE5cGRzbWpldzR6"
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() =>
+                      trackEvent("contact_social_click", {
+                        source: "contact_section",
+                        platform: "instagram",
+                      })
+                    }
                     className="p-3 rounded-full bg-primary/20 hover:bg-primary/40 transition-colors"
                   >
                     <Instagram className="w-5 h-5 text-primary" />
@@ -219,6 +252,12 @@ const Contact = () => {
                     href="https://www.facebook.com/share/1CvwnPfC1j/?mibextid=wwXIfr"
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() =>
+                      trackEvent("contact_social_click", {
+                        source: "contact_section",
+                        platform: "facebook",
+                      })
+                    }
                     className="p-3 rounded-full bg-primary/20 hover:bg-primary/40 transition-colors"
                   >
                     <Facebook className="w-5 h-5 text-primary" />

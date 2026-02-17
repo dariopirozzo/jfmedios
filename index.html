@@ -27,6 +27,31 @@
 
   <body>
     <div id="root"></div>
+    <script src="https://cdn.amplitude.com/script/24949694bebbe57a2a962389185e4f10.js"></script>
+    <script>
+      if (window.amplitude && window.sessionReplay) {
+        window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }));
+        window.amplitude.init("24949694bebbe57a2a962389185e4f10", {
+          fetchRemoteConfig: true,
+          autocapture: {
+            attribution: true,
+            fileDownloads: true,
+            formInteractions: true,
+            pageViews: true,
+            sessions: true,
+            elementInteractions: true,
+            networkTracking: true,
+            webVitals: true,
+            frustrationInteractions: {
+              thrashedCursor: true,
+              errorClicks: true,
+              deadClicks: true,
+              rageClicks: true,
+            },
+          },
+        });
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

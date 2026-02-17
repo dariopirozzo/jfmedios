@@ -1,9 +1,14 @@
 import { Instagram, Facebook, Mail, Phone } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id: string, source: string) => {
+    trackEvent("footer_section_click", {
+      section_id: id,
+      source,
+    });
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -29,6 +34,9 @@ const Footer = () => {
                 href="https://www.instagram.com/jfmedios?igsh=czE5cGRzbWpldzR6"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() =>
+                  trackEvent("footer_social_click", { platform: "instagram" })
+                }
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Instagram className="w-5 h-5" />
@@ -37,6 +45,9 @@ const Footer = () => {
                 href="https://www.facebook.com/share/1CvwnPfC1j/?mibextid=wwXIfr"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() =>
+                  trackEvent("footer_social_click", { platform: "facebook" })
+                }
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Facebook className="w-5 h-5" />
@@ -50,7 +61,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <button
-                  onClick={() => scrollToSection("eventos")}
+                  onClick={() => scrollToSection("eventos", "quick_links_events")}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Próximos Eventos
@@ -58,7 +69,7 @@ const Footer = () => {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection("galeria")}
+                  onClick={() => scrollToSection("galeria", "quick_links_gallery")}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Galería
@@ -66,7 +77,7 @@ const Footer = () => {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection("contacto")}
+                  onClick={() => scrollToSection("contacto", "quick_links_contact")}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Contacto
@@ -83,6 +94,9 @@ const Footer = () => {
                 <Mail className="w-4 h-4 text-primary" />
                 <a
                   href="mailto:jfanucchimedios@gmail.com"
+                  onClick={() =>
+                    trackEvent("footer_contact_click", { type: "email" })
+                  }
                   className="hover:text-primary transition-colors"
                 >
                   jfanucchimedios@gmail.com
@@ -92,6 +106,9 @@ const Footer = () => {
                 <Phone className="w-4 h-4 text-primary" />
                 <a
                   href="tel:+541151105000"
+                  onClick={() =>
+                    trackEvent("footer_contact_click", { type: "phone" })
+                  }
                   className="hover:text-primary transition-colors"
                 >
                   +54 11 5110 5000
@@ -109,6 +126,9 @@ const Footer = () => {
               href="https://www.devstudiocode.com/"
               target="_blank"
               rel="noreferrer"
+              onClick={() =>
+                trackEvent("footer_powered_by_click", { partner: "devstudio" })
+              }
               className="inline-flex items-center gap-2 hover:text-primary transition-colors"
             >
               <span>Powered by DevStudio</span>

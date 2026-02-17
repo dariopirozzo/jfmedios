@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const Hero = () => {
   const scrollToEvents = () => {
+    trackEvent("hero_view_events_click", {
+      source: "hero_cta",
+    });
     document.getElementById("eventos")?.scrollIntoView({ behavior: "smooth" });
   };
 

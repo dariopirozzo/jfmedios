@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Calendar, MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { trackEvent } from '@/lib/analytics';
 import Countdown from './Countdown';
 
 // Mock data - será reemplazado por datos de la base de datos
@@ -101,7 +102,18 @@ const UpcomingEvents = () => {
                   <Countdown targetDate={nextEvent.date} />
                   <div className="mt-6 flex justify-end">
                     <Button asChild className="gradient-bordo">
-                      <a href={ticketUrl} target="_blank" rel="noreferrer">
+                      <a
+                        href={ticketUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() =>
+                          trackEvent('upcoming_event_ticket_click', {
+                            event_id: nextEvent.id,
+                            event_title: nextEvent.title,
+                            source: 'upcoming_events',
+                          })
+                        }
+                      >
                         Comprar entradas
                       </a>
                     </Button>
