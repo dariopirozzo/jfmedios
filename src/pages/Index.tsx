@@ -21,6 +21,7 @@ const Index = () => {
       <Gallery />
       <PastEvents />
       {/* <Testimonials /> */}
+      
       <Contact />
       <Footer />
       <WhatsAppFloating />
