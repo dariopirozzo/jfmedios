@@ -24,6 +24,14 @@ const mockEvents = [
     isNext: false,
   },
   {
+    id: 4,
+    title: 'Campeonato Horseball Open 2026',
+    date: new Date(2026, 2, 13, 18, 0, 0),
+    location: 'Club de Campo La Pintada, Gral. Las Heras',
+    image: encodeURI('/eventos/WhatsApp Image 2026-02-17 at 19.08.40.jpeg'),
+    isNext: false,
+  },
+  {
     id: 3,
     title: 'Cazadoras Doradas Guerreras K-pop en vivo',
     date: new Date(2026, 3, 11, 18, 0, 0),
@@ -34,8 +42,11 @@ const mockEvents = [
 ];
 
 const UpcomingEvents = () => {
-  const nextEvent = mockEvents.find((e) => e.isNext);
-  const otherEvents = mockEvents.filter((e) => !e.isNext);
+  const upcomingEvents = [...mockEvents]
+    .filter((event) => event.date.getTime() > Date.now())
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
+  const nextEvent = upcomingEvents[0];
+  const otherEvents = upcomingEvents.slice(1);
   const ticketUrl = 'https://www.entradaweb.com.ar/evento/7231a537/step/1';
 
   const formatDate = (date: Date) => {
@@ -133,31 +144,32 @@ const UpcomingEvents = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
+              className="h-full"
             >
-              <Card className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all duration-300 group">
-                <div className="relative h-48 overflow-hidden">
+              <Card className="h-full overflow-hidden bg-card border-border hover:border-primary/50 transition-all duration-300 group flex flex-col">
+                <div className="relative h-56 md:h-64 overflow-hidden bg-black">
                   <img
                     src={event.image}
                     alt={event.title}
-                    className="w-full h-full object-contain bg-black group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
                 </div>
-                <CardContent className="p-6">
-                  <div className="flex flex-col gap-2 h-[6.5rem]">
-                    <h3 className="font-display text-2xl leading-tight h-[3.5rem] overflow-hidden">
+                <CardContent className="p-6 flex-1">
+                  <div className="flex flex-col gap-3 min-h-[11rem]">
+                    <h3 className="font-display text-2xl leading-tight min-h-[4.5rem]">
                       {event.title}
                     </h3>
-                    <div className="flex flex-col gap-1 text-sm text-muted-foreground h-[2.5rem] overflow-hidden">
+                    <div className="flex flex-col gap-2 text-sm text-muted-foreground min-h-[5rem]">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-primary" />
                         <span className="capitalize">
                           {formatDate(event.date)}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-primary" />
-                        <span>{event.location}</span>
+                      <div className="flex items-start gap-2">
+                        <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                        <span className="leading-snug">{event.location}</span>
                       </div>
                     </div>
                   </div>
