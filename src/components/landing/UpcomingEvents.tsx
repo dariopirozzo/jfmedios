@@ -39,6 +39,14 @@ const mockEvents = [
     image: '/guerreras-kpop-flyer.jpeg',
     isNext: false,
   },
+  {
+    id: 5,
+    title: 'Alacrán & Silvá - Juntos',
+    date: new Date(2026, 3, 10, 21, 0, 0),
+    location: 'Centro Cultural Roma (Avellaneda 1950)',
+    image: encodeURI('/eventos/WhatsApp Image 2026-02-26 at 14.01.15.jpeg'),
+    isNext: false,
+  },
 ];
 
 const UpcomingEvents = () => {
